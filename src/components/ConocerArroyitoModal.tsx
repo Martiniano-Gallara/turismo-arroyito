@@ -228,9 +228,6 @@ export function ConocerArroyitoModal({ onBack }: ConocerArroyitoViewProps) {
               6 Hitos de la Memoria Arroyitense
             </h3>
           </div>
-          <span className="text-[11px] font-bold text-[#3A4F3F]/70 bg-white px-2.5 py-1 rounded-full border border-[#3A4F3F]/10">
-            1778 · Actualidad
-          </span>
         </div>
 
         {/* Milestone Cards Grid */}
