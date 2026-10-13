@@ -85,10 +85,10 @@ const HISTORIA_OFICIAL: HistoryMilestone[] = [
     badge: "Río y Balneario",
     title: "Ciudad de Ruta 19 y Río Xanaes",
     period: "Dique Los Molinos (1947)",
-    image: "/images/oficial_rio_xanaes.jpg",
-    imagePosition: "object-center",
+    image: "/images/rio_xanaes_arroyito_real.jpg",
+    imagePosition: "object-[center_60%]",
     alt: "Río Xanaes en Arroyito",
-    photoCaption: "Río Xanaes (Río Segundo), ribera y balneario municipal",
+    photoCaption: "Río Xanaes (Río Segundo), ribera natural y balneario municipal",
     summary:
       "Arroyito es la segunda urbe del Departamento San Justo sobre la Ruta Nacional 19. Históricamente, las crecidas primaverales del río inundaban las zonas bajas. Con la habilitación del Dique Los Molinos en 1947 se estabilizó el cauce, naciendo las célebres playas de arena y el balneario municipal.",
     keyFact: "Ubicada estratégicamente sobre la RN 19 a 115 km de Córdoba capital.",
