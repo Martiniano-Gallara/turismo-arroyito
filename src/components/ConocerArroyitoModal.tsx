@@ -28,6 +28,7 @@ interface HistoryMilestone {
   title: string;
   period: string;
   image: string;
+  imagePosition?: string;
   alt: string;
   photoCaption: string;
   summary: string;
@@ -41,9 +42,10 @@ const HISTORIA_OFICIAL: HistoryMilestone[] = [
     badge: "Pueblos Originarios",
     title: "El Antiguo Paraje e Inisacate",
     period: "Período Precolombino",
-    image: "/images/oficial_paraje_antiguo.jpg",
-    alt: "Postal de archivo del antiguo paraje de Arroyito",
-    photoCaption: "Fotografía de archivo histórico del paraje primitivo de Arroyito",
+    image: "/images/paraje_antiguo_arroyito_real.jpg",
+    imagePosition: "object-[center_78%]",
+    alt: "Postal de archivo histórico del paraje primitivo de Arroyito",
+    photoCaption: "Fotografía histórica de archivo: paraje y primeras chacras de Arroyito",
     summary:
       "Los aborígenes sanavirones llamaban a este suelo Inisacate o Intisacate. La aldea debe su nombre al arroyo que ingresaba por el sur (entre actuales avenidas Cura Brochero y José Boetto), originado en las vertientes de Arroyo de Álvarez y Los Manantiales, serpenteando hacia la Laguna de Don Gerónimo Lario antes de desembocar en el río Xanaes.",
     keyFact: "El arroyo original —hoy desaparecido— dio nombre y ubicación a la ciudad.",
@@ -54,7 +56,8 @@ const HISTORIA_OFICIAL: HistoryMilestone[] = [
     badge: "Año 1778 · Virreinato",
     title: "Origen Colonial y Capilla de la Merced",
     period: "Primer Censo Virreinal",
-    image: "/images/oficial_capilla_san_cayetano.jpg",
+    image: "/images/capilla_san_cayetano_arroyito_real.jpg",
+    imagePosition: "object-[center_42%]",
     alt: "Capilla Histórica San Cayetano en Arroyito",
     photoCaption: "Capilla Histórica San Cayetano (antigua Capilla Ntra. Sra. de la Merced)",
     summary:
@@ -67,7 +70,8 @@ const HISTORIA_OFICIAL: HistoryMilestone[] = [
     badge: "Fines Siglo XIX",
     title: "Llegada del Ferrocarril y Museo Histórico",
     period: "Conexión Ferroviaria",
-    image: "/images/oficial_estacion_museo.jpg",
+    image: "/images/estacion_ferrocarril_arroyito_real.jpg",
+    imagePosition: "object-[center_52%]",
     alt: "Estación del ferrocarril y Museo Histórico Municipal",
     photoCaption: "Estación ferroviaria inglesa, sede del Museo Histórico Municipal",
     summary:
@@ -81,6 +85,7 @@ const HISTORIA_OFICIAL: HistoryMilestone[] = [
     title: "Ciudad de Ruta 19 y Río Xanaes",
     period: "Dique Los Molinos (1947)",
     image: "/images/oficial_rio_xanaes.jpg",
+    imagePosition: "object-center",
     alt: "Río Xanaes en Arroyito",
     photoCaption: "Río Xanaes (Río Segundo), ribera y balneario municipal",
     summary:
@@ -94,6 +99,7 @@ const HISTORIA_OFICIAL: HistoryMilestone[] = [
     title: "Plaza 25 de Mayo y Homenaje a los Pioneros",
     period: "Corazón Cívico",
     image: "/images/plaza_25_de_mayo_real.png",
+    imagePosition: "object-[center_45%]",
     alt: "Plaza 25 de Mayo de Arroyito, Monumento a la Madre y bandera argentina",
     photoCaption: "Plaza 25 de Mayo: Monumento a la Madre, fuentes y centro cívico",
     summary:
@@ -107,6 +113,7 @@ const HISTORIA_OFICIAL: HistoryMilestone[] = [
     title: "Economía y Nacimiento de Arcor",
     period: "1951 al Presente",
     image: "/images/real_arcor.jpg",
+    imagePosition: "object-center",
     alt: "Complejo industrial Arcor en Arroyito",
     photoCaption: "Fábrica Arcor Arroyito, cuna de la Capital Nacional de la Dulzura",
     summary:
@@ -197,7 +204,7 @@ export function ConocerArroyitoModal({ onBack }: ConocerArroyitoViewProps) {
                 key={item.id}
                 className="p-4 sm:p-5 rounded-3xl bg-white border border-[#3A4F3F]/10 hover:border-[#D4A359]/70 shadow-[0_4px_20px_rgba(58,79,63,0.04)] hover:shadow-lg transition-all duration-300 flex flex-col gap-3"
               >
-                {/* Real Photograph with Zoom */}
+                {/* Real Photograph with Zoom and Fine-tuned Positioning */}
                 <div
                   onClick={() => setLightboxImage(item)}
                   className="relative h-48 sm:h-64 w-full rounded-2xl overflow-hidden bg-[#243328] group cursor-pointer"
@@ -208,9 +215,11 @@ export function ConocerArroyitoModal({ onBack }: ConocerArroyitoViewProps) {
                     alt={item.alt}
                     fill
                     sizes="(max-width: 768px) 100vw, 850px"
-                    className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+                    className={`group-hover:scale-105 transition-transform duration-500 ease-out object-cover ${
+                      item.imagePosition || "object-center"
+                    }`}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-black/25" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-black/25 pointer-events-none" />
 
                   {/* Top-Left Category Badge */}
                   <div className="absolute top-3 left-3 bg-[#3A4F3F]/95 backdrop-blur-md text-[#D4A359] text-[10px] sm:text-[11px] font-extrabold uppercase tracking-wide px-3 py-1 rounded-full border border-white/10 shadow-sm flex items-center gap-1.5">
@@ -274,14 +283,14 @@ export function ConocerArroyitoModal({ onBack }: ConocerArroyitoViewProps) {
       {lightboxImage && (
         <div
           onClick={() => setLightboxImage(null)}
-          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md p-4 sm:p-8 flex flex-col items-center justify-center animate-fade-in"
+          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md p-3 sm:p-8 flex flex-col items-center justify-center animate-fade-in"
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="relative max-w-3xl w-full bg-[#1F2922] rounded-3xl overflow-hidden border border-white/10 shadow-2xl flex flex-col max-h-[92vh]"
+            className="relative max-w-4xl w-full bg-[#1F2922] rounded-3xl overflow-hidden border border-white/10 shadow-2xl flex flex-col max-h-[94vh]"
           >
             {/* Lightbox Header */}
-            <div className="p-4 flex items-center justify-between border-b border-white/10 text-white">
+            <div className="p-4 flex items-center justify-between border-b border-white/10 text-white bg-[#1A241C]">
               <div>
                 <span className="text-[10px] font-bold uppercase tracking-wider text-[#D4A359]">
                   {lightboxImage.badge}
@@ -299,23 +308,24 @@ export function ConocerArroyitoModal({ onBack }: ConocerArroyitoViewProps) {
               </button>
             </div>
 
-            {/* Lightbox Image View */}
-            <div className="relative w-full h-72 sm:h-96 bg-black">
+            {/* Lightbox Image View with generous adaptive height */}
+            <div className="relative w-full h-[60vh] sm:h-[68vh] bg-[#121813] flex items-center justify-center p-2">
               <Image
                 src={lightboxImage.image}
                 alt={lightboxImage.alt}
                 fill
-                sizes="(max-width: 1024px) 100vw, 900px"
+                sizes="(max-width: 1024px) 100vw, 950px"
                 className="object-contain"
+                priority
               />
             </div>
 
             {/* Lightbox Footer Caption */}
-            <div className="p-4 bg-[#26352A] text-white/90 text-xs sm:text-sm">
+            <div className="p-4 bg-[#26352A] text-white/90 text-xs sm:text-sm border-t border-white/10 overflow-y-auto max-h-36">
               <p className="leading-relaxed font-normal">{lightboxImage.summary}</p>
               <p className="text-[11px] text-[#D4A359] mt-2 font-semibold flex items-center gap-1.5">
-                <Sparkles className="w-3.5 h-3.5" />
-                {lightboxImage.keyFact}
+                <Sparkles className="w-3.5 h-3.5 shrink-0" />
+                <span>{lightboxImage.keyFact}</span>
               </p>
             </div>
           </div>
