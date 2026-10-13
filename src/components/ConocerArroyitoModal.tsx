@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import {
   ArrowLeft,
@@ -125,6 +126,37 @@ const HISTORIA_OFICIAL: HistoryMilestone[] = [
 export function ConocerArroyitoModal({ onBack }: ConocerArroyitoViewProps) {
   const [isClosing, setIsClosing] = useState(false);
   const [lightboxImage, setLightboxImage] = useState<HistoryMilestone | null>(null);
+  const [mounted, setMounted] = useState(false);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Lock scrolling when a card detail is open to prevent page movement
+  useEffect(() => {
+    if (!lightboxImage) return;
+
+    const originalBodyOverflow = document.body.style.overflow;
+    const originalBodyTouch = document.body.style.touchAction;
+
+    document.body.style.overflow = "hidden";
+    document.body.style.touchAction = "none";
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setLightboxImage(null);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = originalBodyOverflow;
+      document.body.style.touchAction = originalBodyTouch;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [lightboxImage]);
 
   const handleBack = () => {
     if (isClosing) return;
@@ -132,15 +164,21 @@ export function ConocerArroyitoModal({ onBack }: ConocerArroyitoViewProps) {
     setTimeout(onBack, 360);
   };
 
+  const handleCardClick = (item: HistoryMilestone) => {
+    setLightboxImage(item);
+  };
+
   return (
     <div
-      className={`fixed inset-0 z-40 bg-[#F5F2EB] flex flex-col overflow-y-auto ${
-        isClosing ? "animate-page-turn-out pointer-events-none" : "animate-page-turn-in"
-      }`}
+      ref={scrollContainerRef}
+      className={`fixed inset-0 z-40 bg-[#F5F2EB] flex flex-col ${
+        lightboxImage ? "overflow-hidden" : "overflow-y-auto"
+      } ${isClosing ? "animate-page-turn-out pointer-events-none" : "animate-page-turn-in"}`}
     >
       {/* Sticky Top Header */}
       <header className="sticky top-0 z-30 bg-[#FAF8F5]/95 backdrop-blur-md border-b border-[#3A4F3F]/10 px-4 py-3 flex items-center justify-between">
         <button
+          type="button"
           onClick={handleBack}
           className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#3A4F3F] text-[#FAF8F5] text-xs font-bold shadow-xs hover:bg-[#2B3B2F] transition active:scale-95 cursor-pointer"
         >
@@ -202,13 +240,15 @@ export function ConocerArroyitoModal({ onBack }: ConocerArroyitoViewProps) {
             return (
               <article
                 key={item.id}
-                className="p-4 sm:p-5 rounded-3xl bg-white border border-[#3A4F3F]/10 hover:border-[#D4A359]/70 shadow-[0_4px_20px_rgba(58,79,63,0.04)] hover:shadow-lg transition-all duration-300 flex flex-col gap-3"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleCardClick(item);
+                }}
+                className="p-4 sm:p-5 rounded-3xl bg-white border border-[#3A4F3F]/10 hover:border-[#D4A359]/80 shadow-[0_4px_20px_rgba(58,79,63,0.04)] hover:shadow-lg transition-all duration-300 flex flex-col gap-3 cursor-pointer group active:scale-[0.99] select-none"
               >
                 {/* Real Photograph with Zoom and Fine-tuned Positioning */}
                 <div
-                  onClick={() => setLightboxImage(item)}
-                  className="relative h-48 sm:h-64 w-full rounded-2xl overflow-hidden bg-[#243328] group cursor-pointer"
-                  title="Toca para ampliar la foto oficial"
+                  className="relative h-48 sm:h-64 w-full rounded-2xl overflow-hidden bg-[#243328] group"
                 >
                   <Image
                     src={item.image}
@@ -228,17 +268,12 @@ export function ConocerArroyitoModal({ onBack }: ConocerArroyitoViewProps) {
                   </div>
 
                   {/* Top-Right Lightbox Button */}
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setLightboxImage(item);
-                    }}
-                    className="absolute top-3 right-3 p-2 rounded-full bg-black/50 backdrop-blur-md text-white hover:bg-black/80 hover:scale-110 active:scale-95 transition cursor-pointer"
-                    aria-label="Ampliar fotografía oficial"
+                  <div
+                    className="absolute top-3 right-3 p-2 rounded-full bg-black/50 backdrop-blur-md text-white group-hover:bg-[#3A4F3F] group-hover:text-[#D4A359] group-hover:scale-110 transition shadow-xs"
+                    aria-label="Tocar para ampliar"
                   >
                     <Maximize2 className="w-3.5 h-3.5" />
-                  </button>
+                  </div>
 
                   {/* Bottom Image Caption */}
                   <div className="absolute bottom-2.5 left-3 right-3 text-white text-[11px] sm:text-xs font-semibold line-clamp-1 drop-shadow-sm flex items-center gap-1.5 opacity-95">
@@ -249,12 +284,12 @@ export function ConocerArroyitoModal({ onBack }: ConocerArroyitoViewProps) {
 
                 {/* Card Info Content */}
                 <div className="flex items-start gap-3 pt-1">
-                  <div className="p-2.5 rounded-2xl bg-[#3A4F3F] text-[#D4A359] shrink-0 shadow-xs">
+                  <div className="p-2.5 rounded-2xl bg-[#3A4F3F] text-[#D4A359] shrink-0 shadow-xs group-hover:bg-[#2B3B2F] transition">
                     <Icon className="w-5 h-5 sm:w-6 sm:h-6" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between gap-2 flex-wrap">
-                      <h4 className="text-base sm:text-lg font-black text-[#3A4F3F] leading-snug">
+                      <h4 className="text-base sm:text-lg font-black text-[#3A4F3F] leading-snug group-hover:text-[#2B3B2F]">
                         {item.title}
                       </h4>
                       <span className="text-[11px] font-bold text-[#D4A359] bg-[#F5F2EB] px-2.5 py-0.5 rounded-full border border-[#D4A359]/20">
@@ -279,57 +314,71 @@ export function ConocerArroyitoModal({ onBack }: ConocerArroyitoViewProps) {
         </div>
       </main>
 
-      {/* Lightbox Modal for Photo Zoom */}
-      {lightboxImage && (
+      {/* Lightbox Modal Rendered in Portal directly to document.body:
+          - Prevents scroll jump to top (stays in place)
+          - Blocks/freezes background scrolling until closed
+      */}
+      {mounted && lightboxImage && createPortal(
         <div
+          role="dialog"
+          aria-modal="true"
           onClick={() => setLightboxImage(null)}
-          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md p-3 sm:p-8 flex flex-col items-center justify-center animate-fade-in"
+          onTouchMove={(e) => {
+            if (e.target === e.currentTarget) {
+              e.preventDefault();
+            }
+          }}
+          className="fixed inset-0 z-[9999] bg-black/85 backdrop-blur-md p-3 sm:p-6 flex flex-col items-center justify-center animate-modal-backdrop overscroll-none"
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="relative max-w-4xl w-full bg-[#1F2922] rounded-3xl overflow-hidden border border-white/10 shadow-2xl flex flex-col max-h-[94vh]"
+            className="relative max-w-2xl w-full bg-[#1A251D] rounded-3xl overflow-hidden border border-white/15 shadow-2xl flex flex-col max-h-[92vh] animate-modal-card"
           >
             {/* Lightbox Header */}
-            <div className="p-4 flex items-center justify-between border-b border-white/10 text-white bg-[#1A241C]">
-              <div>
-                <span className="text-[10px] font-bold uppercase tracking-wider text-[#D4A359]">
+            <div className="p-4 sm:p-5 flex items-center justify-between border-b border-white/10 bg-[#131C15] text-white shrink-0">
+              <div className="pr-2">
+                <span className="text-[10px] sm:text-[11px] font-black uppercase tracking-wider text-[#D4A359]">
                   {lightboxImage.badge}
                 </span>
-                <h4 className="text-sm sm:text-base font-black text-[#FAF8F5]">
+                <h4 className="text-base sm:text-lg font-black text-[#FAF8F5] leading-snug mt-0.5">
                   {lightboxImage.title}
                 </h4>
               </div>
               <button
+                type="button"
                 onClick={() => setLightboxImage(null)}
-                className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition cursor-pointer"
-                aria-label="Cerrar visor"
+                className="p-2 sm:p-2.5 rounded-full bg-white/10 hover:bg-white/25 active:scale-90 text-white transition cursor-pointer shrink-0"
+                aria-label="Cerrar tarjeta"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            {/* Lightbox Image View with generous adaptive height */}
-            <div className="relative w-full h-[60vh] sm:h-[68vh] bg-[#121813] flex items-center justify-center p-2">
+            {/* Lightbox Image View with crisp containment */}
+            <div className="relative w-full h-56 sm:h-80 bg-black flex items-center justify-center shrink-0">
               <Image
                 src={lightboxImage.image}
                 alt={lightboxImage.alt}
                 fill
-                sizes="(max-width: 1024px) 100vw, 950px"
+                sizes="(max-width: 1024px) 100vw, 850px"
                 className="object-contain"
                 priority
               />
             </div>
 
-            {/* Lightbox Footer Caption */}
-            <div className="p-4 bg-[#26352A] text-white/90 text-xs sm:text-sm border-t border-white/10 overflow-y-auto max-h-36">
+            {/* Lightbox Footer Content (Scrollable only if text is long) */}
+            <div className="p-4 sm:p-5 bg-[#202E24] text-white/95 text-xs sm:text-sm border-t border-white/10 overflow-y-auto overscroll-contain">
               <p className="leading-relaxed font-normal">{lightboxImage.summary}</p>
-              <p className="text-[11px] text-[#D4A359] mt-2 font-semibold flex items-center gap-1.5">
-                <Sparkles className="w-3.5 h-3.5 shrink-0" />
-                <span>{lightboxImage.keyFact}</span>
-              </p>
+              <div className="mt-3.5 pt-3 border-t border-white/10 flex items-start gap-2 text-[11px] sm:text-xs text-[#D4A359]">
+                <Sparkles className="w-4 h-4 shrink-0 mt-0.5" />
+                <span className="font-semibold text-white/90">
+                  {lightboxImage.keyFact}
+                </span>
+              </div>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );
