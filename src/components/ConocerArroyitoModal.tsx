@@ -70,9 +70,9 @@ const HISTORIA_OFICIAL: HistoryMilestone[] = [
     badge: "Fines Siglo XIX",
     title: "Llegada del Ferrocarril y Museo Histórico",
     period: "Conexión Ferroviaria",
-    image: "/images/estacion_ferrocarril_arroyito_real.jpg",
-    imagePosition: "object-[center_52%]",
-    alt: "Estación del ferrocarril y Museo Histórico Municipal",
+    image: "/images/estacion_arroyito_alta_calidad.jpg",
+    imagePosition: "object-[center_55%]",
+    alt: "Estación del ferrocarril de Arroyito y Museo Histórico Municipal",
     photoCaption: "Estación ferroviaria inglesa, sede del Museo Histórico Municipal",
     summary:
       "La llegada del ferrocarril integró la producción agrícola del este cordobés con los principales mercados y puertos, atrayendo a familias inmigrantes (en su mayoría italianas). La casona ferroviaria de diseño inglés alberga actualmente las salas del Museo Histórico Municipal de Arroyito.",
