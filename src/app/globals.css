@@ -1,0 +1,101 @@
+@import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
+
+:root {
+  --brand-bg: #F5F2EB;
+  --brand-green: #3A4F3F;
+  --brand-green-dark: #223326;
+  --brand-green-light: #4E6654;
+  --brand-gold: #D4A359;
+  --brand-gold-light: #E7C286;
+  --brand-gold-dark: #B8853B;
+  --brand-cream: #FAF8F5;
+}
+
+@theme {
+  --color-brand-bg: var(--brand-bg);
+  --color-brand-green: var(--brand-green);
+  --color-brand-green-dark: var(--brand-green-dark);
+  --color-brand-green-light: var(--brand-green-light);
+  --color-brand-gold: var(--brand-gold);
+  --color-brand-gold-light: var(--brand-gold-light);
+  --color-brand-gold-dark: var(--brand-gold-dark);
+  --color-brand-cream: var(--brand-cream);
+  --font-sans: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+html, body {
+  background-color: var(--brand-bg);
+  color: var(--brand-green);
+  font-family: var(--font-sans);
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom smooth scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(245, 242, 235, 0.4);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(212, 163, 89, 0.6);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(212, 163, 89, 0.9);
+}
+
+/* Shimmer animation for presentation loader */
+@keyframes shimmerPulse {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(0.98);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.02);
+  }
+}
+
+.animate-shimmer-pulse {
+  animation: shimmerPulse 2.4s ease-in-out infinite;
+}
+
+/* Hyper-subtle horizontal transition (native, ultra-smooth feel) */
+@keyframes smoothSlideIn {
+  0% {
+    transform: translate3d(100%, 0, 0);
+    box-shadow: -12px 0 30px rgba(0, 0, 0, 0.12);
+  }
+  100% {
+    transform: none;
+    box-shadow: none;
+  }
+}
+
+@keyframes smoothSlideOut {
+  0% {
+    transform: none;
+    box-shadow: none;
+  }
+  100% {
+    transform: translate3d(100%, 0, 0);
+    box-shadow: -12px 0 30px rgba(0, 0, 0, 0.12);
+  }
+}
+
+.animate-page-turn-in {
+  animation: smoothSlideIn 0.36s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.animate-page-turn-out {
+  animation: smoothSlideOut 0.28s cubic-bezier(0.32, 0.72, 0, 1) forwards;
+}
+
