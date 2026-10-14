@@ -37,7 +37,8 @@ export function IntroLoader({ onComplete, forceShow = false }: IntroLoaderProps)
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#F5F2EB] transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+      onClick={onComplete}
+      className={`fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#F5F2EB] cursor-pointer transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
         stage === "fadeout"
           ? "opacity-0 pointer-events-none scale-105 blur-[2px]"
           : "opacity-100 scale-100"

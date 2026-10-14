@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import {
   Bed,
@@ -24,10 +24,20 @@ export default function HomePage() {
   const [showEmergencies, setShowEmergencies] = useState(false);
   const [showConocer, setShowConocer] = useState(false);
 
-  const handleIntroComplete = () => {
+  const handleIntroComplete = useCallback(() => {
     setShowIntro(false);
     setHasLoaded(true);
-  };
+  }, []);
+
+  useEffect(() => {
+    // Safety fallback: ensure UI is always shown even if animation or timers are interrupted
+    const fallbackTimer = setTimeout(() => {
+      setShowIntro(false);
+      setHasLoaded(true);
+    }, 2200);
+
+    return () => clearTimeout(fallbackTimer);
+  }, []);
 
   return (
     <main className="relative h-[100dvh] max-h-[100dvh] w-full overflow-hidden flex flex-col justify-between select-none bg-[#F5F2EB]">
