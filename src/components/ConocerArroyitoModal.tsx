@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
+import { getAssetUrl } from "@/utils/assetPath";
 import {
   ArrowLeft,
   Compass,
@@ -197,7 +198,7 @@ export function ConocerArroyitoModal({ onBack }: ConocerArroyitoViewProps) {
       {/* Hero Banner */}
       <div className="relative w-full h-44 sm:h-56 bg-[#3A4F3F] overflow-hidden shrink-0">
         <Image
-          src="/images/hero-arroyito.jpg"
+          src={getAssetUrl("/images/hero-arroyito.jpg")}
           alt="Arroyito, Córdoba"
           fill
           priority
@@ -248,7 +249,7 @@ export function ConocerArroyitoModal({ onBack }: ConocerArroyitoViewProps) {
                   className="relative h-48 sm:h-64 w-full rounded-2xl overflow-hidden bg-[#243328] group"
                 >
                   <Image
-                    src={item.image}
+                    src={getAssetUrl(item.image)}
                     alt={item.alt}
                     fill
                     sizes="(max-width: 768px) 100vw, 850px"
@@ -354,7 +355,7 @@ export function ConocerArroyitoModal({ onBack }: ConocerArroyitoViewProps) {
             {/* Lightbox Image View with crisp containment */}
             <div className="relative w-full h-56 sm:h-80 bg-black flex items-center justify-center shrink-0">
               <Image
-                src={lightboxImage.image}
+                src={getAssetUrl(lightboxImage.image)}
                 alt={lightboxImage.alt}
                 fill
                 sizes="(max-width: 1024px) 100vw, 850px"

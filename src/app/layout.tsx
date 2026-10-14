@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
+import { getAssetUrl } from "@/utils/assetPath";
 import "./globals.css";
 
 const inter = Inter({
@@ -17,7 +18,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://turismoarroyito.com.ar"),
+  metadataBase: new URL("https://martiniano-gallara.github.io"),
   title: "Turismo Arroyito",
   description: "Guía práctica y rápida para descubrir Arroyito, Córdoba: alojamiento, gastronomía, puntos de interés, servicios y teléfonos útiles.",
   keywords: ["Turismo Arroyito", "Arroyito Córdoba", "Hoteles en Arroyito", "Dónde comer en Arroyito", "La Dulce Ciudad"],
@@ -25,11 +26,11 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Turismo Arroyito",
     description: "Descubrí Arroyito: descanso, gastronomía, naturaleza y servicios.",
-    url: "https://turismoarroyito.com.ar",
+    url: "https://martiniano-gallara.github.io/turismo-arroyito",
     siteName: "Turismo Arroyito",
     images: [
       {
-        url: "/images/hero-arroyito.jpg",
+        url: getAssetUrl("/images/hero-arroyito.jpg"),
         width: 1200,
         height: 800,
         alt: "Arroyito, Córdoba al atardecer",
@@ -40,11 +41,11 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/images/escudo-arroyito.png", type: "image/png" },
-      { url: "/favicon.ico" },
+      { url: getAssetUrl("/images/escudo-arroyito.png"), type: "image/png" },
+      { url: getAssetUrl("/favicon.ico") },
     ],
-    shortcut: "/images/escudo-arroyito.png",
-    apple: "/images/escudo-arroyito.png",
+    shortcut: getAssetUrl("/images/escudo-arroyito.png"),
+    apple: getAssetUrl("/images/escudo-arroyito.png"),
   },
 };
 

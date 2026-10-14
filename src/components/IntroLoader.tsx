@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import { getAssetUrl } from "@/utils/assetPath";
 
 interface IntroLoaderProps {
   onComplete: () => void;
@@ -56,7 +57,7 @@ export function IntroLoader({ onComplete, forceShow = false }: IntroLoaderProps)
           }`}
         >
           <Image
-            src="/images/escudo-arroyito.png"
+            src={getAssetUrl("/images/escudo-arroyito.png")}
             alt="Escudo Oficial de Arroyito"
             width={80}
             height={80}

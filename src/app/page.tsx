@@ -15,6 +15,7 @@ import { IntroLoader } from "@/components/IntroLoader";
 import { CatalogView } from "@/components/CatalogView";
 import { EmergencyModal } from "@/components/EmergencyModal";
 import { ConocerArroyitoModal } from "@/components/ConocerArroyitoModal";
+import { getAssetUrl } from "@/utils/assetPath";
 
 export default function HomePage() {
   const [showIntro, setShowIntro] = useState(true);
@@ -36,7 +37,7 @@ export default function HomePage() {
       {/* Cinematic Background Image Container */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         <Image
-          src="/images/hero-arroyito.jpg"
+          src={getAssetUrl("/images/hero-arroyito.jpg")}
           alt="Arroyito, Córdoba al atardecer"
           fill
           priority

@@ -14,6 +14,7 @@ import {
   Navigation,
 } from "lucide-react";
 import { PlaceItem } from "@/data/tourismData";
+import { getAssetUrl } from "@/utils/assetPath";
 
 interface PlaceDetailDrawerProps {
   place: PlaceItem | null;
@@ -66,7 +67,7 @@ export function PlaceDetailDrawer({ place, onClose, onViewOnMap }: PlaceDetailDr
         {/* Hero image with badges and close button */}
         <div className="relative w-full h-44 sm:h-52 bg-[#3A4F3F] shrink-0 overflow-hidden">
           <Image
-            src={place.image}
+            src={getAssetUrl(place.image)}
             alt={place.name}
             fill
             className="object-cover object-center"

@@ -15,6 +15,7 @@ import {
 import dynamic from "next/dynamic";
 import { PlaceItem, CATEGORIES, TOURIST_PLACES } from "@/data/tourismData";
 import { PlaceDetailDrawer } from "@/components/PlaceDetailDrawer";
+import { getAssetUrl } from "@/utils/assetPath";
 
 const ArroyitoMap = dynamic(
   () => import("@/components/ArroyitoMap").then((mod) => mod.ArroyitoMap),
@@ -137,7 +138,7 @@ export function CatalogView({ categoryId, onBack }: CatalogViewProps) {
       {/* Hero Banner for the Section */}
       <div className="relative w-full h-36 sm:h-48 bg-[#3A4F3F] overflow-hidden shrink-0">
         <Image
-          src={currentCategory.bannerImage}
+          src={getAssetUrl(currentCategory.bannerImage)}
           alt={currentCategory.title}
           fill
           priority
@@ -273,7 +274,7 @@ export function CatalogView({ categoryId, onBack }: CatalogViewProps) {
                     {/* Thumbnail Image with Open/Closed Badge */}
                     <div className="relative w-full aspect-4/3 bg-[#3A4F3F]/10 overflow-hidden">
                       <Image
-                        src={place.image}
+                        src={getAssetUrl(place.image)}
                         alt={place.name}
                         fill
                         sizes="(max-width: 640px) 50vw, 300px"
